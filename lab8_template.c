@@ -5,8 +5,7 @@
 
   Lab 8: word frequencies in O(n) time
 
-  Authors: Kevin Wortman (kwortman@csu.fullerton.edu) (REPLACE THIS
-  WITH YOUR NAMES AND CSUF EMAIL ADDRESSES)
+  Authors:Jared Vanotterdykl oracleryuu@csu.fullerton.edu
 
 */ 
 
@@ -21,6 +20,9 @@
 /* Safe estimate of the length of the longest English word. */
 #define MAX_WORD_LENGTH 200
 
+
+void (*GHFunc) printerhelper( gpointer key, gpointer value, gpointer user_data); 
+
 /* This program uses the glib idiom of logging memory allocation
    errors immediately instead of communicating errors through return
    values. */
@@ -33,17 +35,20 @@
    to standard output, where <WORD> is the non-whitespace characters
    of the word, and <COUNT> is the number of times it appears, which
    must be a positive integer. */
-void print_word_frequencies(char* path);
+
 
 /* Opaque data type for a data structure that tracks the number of
    occurrences of strings. */
-
+void print_word_frequencies(char* path);
 /* TODO: Define a data type called WordCounts. It could be a struct or
    a typedef aliast for a pre-existing data type. */
 typedef struct WordCounts{ 
   GHashTable *ptr;
 }WordCounts;
+void WordCounts_destroy(struct WordCounts * self)
+{
 
+}
 
 
 
@@ -118,7 +123,7 @@ WordCounts* word_counts_make() {
   WordCounts *WordVault= gnew(WordCounts, 1);
 
 
-  WordVault.ptr= g_hash_table_new (g_str_hash, g_int_equal);
+  WordVault.ptr= g_hash_table_new_full (g_str_hash, g_int_equal, __ ,__);
 
 
 }
@@ -128,12 +133,19 @@ void word_counts_free(WordCounts* wc) {
 
   /* Hint: use g_hash_table_destroy, and be certain that each key
      object and value object is freed with a glib function. */
+
+  g_hash_table_destroy(wc);
+
 }
 
 int word_counts_lookup(WordCounts* wc, char* word) {
   /* TODO: implement this function */
 
   /* Hint: use g_hash_table_lookup */
+
+  printf("s% i%", word, g_hash_table_lookup(wc->ptr,word));
+
+
 }
 
 void word_counts_increment(WordCounts* wc, char* word) {
@@ -147,12 +159,30 @@ void word_counts_increment(WordCounts* wc, char* word) {
      Otherwise allocate new key and value objects using glib
      allocation functions, and use g_hash_table_insert to add them to
      the table.
- */
-}
+  */
+  if(g_hash_table_lookup( wc->ptr, word)!=NUll){
+    int* i;
+    //todo create and allocate string pointer, making it equal to word
+    i=gnew(int,1);
+    *i=g_hash_table_lookup(wc->ptr,word);
+    *i++;
+    g_hash_table_insert(wc->ptr, word, i)
+      }
+  else{ g_hash_table_insert(wc->ptr, word, 1)
+      }
 
+
+
+  
+}
+void  printhelper (gpointer key,gpointer value, gpointer user_data)
+{
+  printf("s% i%", key, value);
+}
 void word_counts_print(WordCounts* wc) {
   /* TODO: implement this function */
 
   /* Hint: use g_hash_table_foreach or the g_hash_table_iter functions. */
+  g_hash_table_foreach( wc->ptr, printhelper, NULL);
 }
 
